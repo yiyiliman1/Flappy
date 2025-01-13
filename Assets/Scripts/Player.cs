@@ -11,9 +11,14 @@ public class Player : MonoBehaviour
     public float gravity = -9.8f;
     public float strength = 5f;
 
+    private AudioSource audioSource;
+    public AudioClip pointSound;
+    public AudioClip deathSound;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -30,16 +35,11 @@ public class Player : MonoBehaviour
         direction = Vector3.zero;
     }
 
-    private void HandleFlap()
-    {
-        direction = Vector3.up * strength;
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
-            HandleFlap();
+            direction = Vector3.up * strength;
         }
 
         if (Input.touchCount > 0)
@@ -47,12 +47,19 @@ public class Player : MonoBehaviour
             Touch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
             {
-                HandleFlap();
+                direction = Vector3.up * strength;
             }
         }
 
         direction.y += gravity * Time.deltaTime;
         transform.position += direction * Time.deltaTime;
+
+        float maxY = Camera.main.orthographicSize;
+        if (transform.position.y > maxY)
+        {
+            transform.position = new Vector3(transform.position.x, maxY, transform.position.z);
+            direction.y = 0;
+        }
     }
 
     private void AnimateSprite()
@@ -71,9 +78,11 @@ public class Player : MonoBehaviour
         if (other.gameObject.tag == "Obstacle")
         {
             FindObjectOfType<GameManager>().GameOver();
+            AudioManager.Instance.PlayDeathSound();
         } else if (other.gameObject.tag == "Scoring")
         {
             FindObjectOfType<GameManager>().IncreaseScore();
+            AudioManager.Instance.PlayScoreSound();
         }
     }
 }
