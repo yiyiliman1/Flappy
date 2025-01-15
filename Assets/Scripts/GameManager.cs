@@ -8,29 +8,27 @@ public class GameManager : MonoBehaviour
 {
     public Player player;
     public Text scoreText;
-    public GameObject playButton;
-    public GameObject creditsButton;
-    public GameObject exitButton;
     public GameObject gameOver;
     public GameObject returnButton;
+    public GameObject playAgain;
     private int score;
 
     private void Awake()
     {
         Application.targetFrameRate = 60;
+        gameOver.SetActive(false);
+        playAgain.SetActive(false);
 
-        Pause();
     }
     public void Play()
     {
         score = 0;
         scoreText.text = score.ToString();
 
-        playButton.SetActive(false);
+        
         gameOver.SetActive(false);
-        creditsButton.SetActive(false);
-        exitButton.SetActive(false);
         returnButton.SetActive(true);
+        playAgain.SetActive(false);
 
         Time.timeScale = 1f;
         player.enabled = true;
@@ -51,10 +49,8 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         gameOver.SetActive(true);   
-        playButton.SetActive(true);
-        creditsButton.SetActive(true);
-        exitButton.SetActive(true); 
-        returnButton.SetActive(false);
+        returnButton.SetActive(true);
+        playAgain?.SetActive(true);
 
         Pause();    
     }
@@ -63,17 +59,6 @@ public class GameManager : MonoBehaviour
     {
         score++;
         scoreText.text = score.ToString();
-    }
-
-    public void ShowCredits()
-    {
-        SceneManager.LoadScene("Fin");
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
-        Debug.Log("Cerrado");
     }
 
     public void GoToMenu()
