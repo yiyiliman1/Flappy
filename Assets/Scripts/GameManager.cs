@@ -27,7 +27,11 @@ public class GameManager : MonoBehaviour
 
         
         gameOver.SetActive(false);
+<<<<<<< HEAD
         returnButton.SetActive(true);
+=======
+        returnButton.SetActive(false);
+>>>>>>> 08fe5c2 (Funciona)
         playAgain.SetActive(false);
 
         Time.timeScale = 1f;
@@ -39,6 +43,11 @@ public class GameManager : MonoBehaviour
         {
             Destroy(pipes[i].gameObject);
         }
+<<<<<<< HEAD
+=======
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+>>>>>>> 08fe5c2 (Funciona)
     }
     public void Pause() 
     { 
