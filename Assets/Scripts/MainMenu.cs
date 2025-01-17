@@ -8,11 +8,11 @@ public class MainMenu : MonoBehaviour
     // Start is called before the first frame update
     public void Play()
     {
-<<<<<<< HEAD
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-=======
+
         SceneManager.LoadScene("SampleScene");
->>>>>>> 08fe5c2 (Funciona)
+
     }
 
     public void Credits()
